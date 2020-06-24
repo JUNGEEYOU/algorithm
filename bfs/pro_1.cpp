@@ -3,17 +3,16 @@
 // output : 첫째 줄에는 그림의 개수, 둘째 줄에는 그 중 가장 넓은 그림의 넓이를 출력하여라. 단, 그림이 하나도 없는 경우에는 가장 넓은 그림의 넓이는 0이다.
 #include <bits/stdc++.h>
 using namespace std;
-
-bool vis[500][500];
 #define X first
 #define Y second 
-int big =1;
-int num=0;
+bool vis[500][500];
 int dx[4] = {1,-1,0,0};
 int dy[4] = {0,0,-1,1}; 
 int main(void){
   ios::sync_with_stdio(0);
   cin.tie(0);
+  int big =1;
+  int num=0;
   int n, m; 
   cin >> n; cin >> m;
   int b[n][m];
@@ -22,18 +21,19 @@ int main(void){
           cin >> b[i][j];
       }
   }
-  queue<pair<int, int>> Q;
+  queue<pair <int,int>> Q; 
   for(int i=0; i<n; i++){
       for(int j=0; j<m; j++){
-          if(vis[i][j]) continue;
+          if(vis[i][j] || b[i][j]!=1 ) continue;
             int com = 0;
             vis[i][j] =1;
             Q.push({i,j});
+            num++;
           while(!Q.empty()){
               pair<int,int> a = Q.front(); Q.pop();
               for(int z =0; z<4; z++){
-                int nx = Q.X + dx[z];
-                int ny = Q.Y + dy[z];
+                int nx = a.X + dx[z];
+                int ny = a.Y + dy[z];
                 if(nx < 0 || nx >=n || ny < 0 || ny >=m) continue;
                 if(vis[nx][ny] || b[nx][ny]!=1) continue;
                 com ++;
@@ -41,10 +41,9 @@ int main(void){
                 Q.push({nx, ny});
               }
           }
-        num++;
         if (big < com) big=com;
       }
   }
-    cout << num;
+    cout << num << '\n';
     cout << big;
 }
